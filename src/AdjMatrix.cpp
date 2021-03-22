@@ -3,12 +3,11 @@
 
 
 
-void AdjMatrix::Graph::insertEdge(const int v1,const int v2){
-    if(v1 >= this->numberVertex || v2 >= this->numberVertex )
+void AdjMatrix::Graph::insertEdge(const int vertexOrigin, const int vertexDestination){
+    if(vertexOrigin >= this->numberVertex || vertexDestination >= this->numberVertex )
         throw "ERROR: Out of index";
-    matrix[v1][v2] = 1;
-    matrix[v2][v1] = 1;
-    if(v1==v2) matrix[v1][v2] = 2; //Fazer de forma mais inteligente
+    matrix[vertexOrigin][vertexDestination] = (vertexOrigin == vertexDestination ? 2 : 1 );
+    
     this->numberEdges+=1;
 }
 void AdjMatrix::Graph::foo()const noexcept{
@@ -26,22 +25,46 @@ void AdjMatrix::Graph::foo()const noexcept{
 }
 void AdjMatrix::Graph::bar()const noexcept{
     printf("/ ");
-    for (size_t i = 0; i < this->numberVertex; i++)
+    for (int i = 0; i < this->numberVertex; i++)
         printf("%d ",i);
     printf("\n");
-    for (size_t i = 0; i < this->numberVertex; i++)
+    for (int i = 0; i < this->numberVertex; i++)
     {
         printf("%d ",i);
         // for (size_t i = 0; i < count; i++)
         
-        for (size_t j = 0; j < numberVertex; j++)
+        for (int j = 0; j < numberVertex; j++)
         {
             printf("%d ",matrix[i][j]);
         }
         printf("\n");
     }
 }
+void AdjMatrix::Graph::DFS()noexcept{
+    AdjMatrix::Color color[this->numberVertex];
+    int tDiscovery[this->numberVertex];
+    int tCompletion[this->numberVertex];
+    int time{};
+    for (int i = 0; i < this->numberVertex; i++)
+        color[i] = WHITE;
+    for (int i = 0; i < this->numberVertex; i++)
+        if(color[i] == WHITE)
+            DFSVisit(i,color,tDiscovery,tCompletion,&time);
+}
+void AdjMatrix::Graph::DFSVisit(int vertex,enum Color *color,int *tDiscovery,int *tCompletion,int *time) noexcept{
+    color[vertex]       = GREY;
+    *time              += 1;
+    tDiscovery[vertex]  = *time;
+    for (int i = 0; i < this->numberVertex; i++)
+        if(matrix[vertex][i] == 1 & color[i] == WHITE)
+            DFSVisit(i,color,tDiscovery,tCompletion,time);
+    
 
+    color[vertex]       = BLACK;
+    *time              += 1;
+    tCompletion[vertex] = *time;
+    printf("Vertex:%d D:%d, F:%d \n", vertex, tDiscovery[vertex], tCompletion[vertex]);
+}
 //Using smart pointer
 //https://stackoverflow.com/questions/41378590/declare-bi-directional-matrix-using-smart-pointers-in-c
 
