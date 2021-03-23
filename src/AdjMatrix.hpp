@@ -1,17 +1,17 @@
-#include <memory>
+#pragma once
+#include<memory>
 namespace AdjMatrix
 {
-    enum Color{
-        WHITE,
-        GREY,
-        BLACK
-    };
     class Graph
     {
         private:
+            enum Color{
+                WHITE,
+                GREY,
+                BLACK
+            };
             int numberVertex;
             int numberEdges;
-            // int** matrix;
             std::unique_ptr<std::unique_ptr<int[]>[]> matrix;
             void DFSVisit(int vertex,enum Color *color,int *tDiscovery,int *tCompletion,int *time) noexcept;
         public:
@@ -19,6 +19,7 @@ namespace AdjMatrix
             void foo() const noexcept;
             void bar() const noexcept;
             void DFS() noexcept;
+            void BFS(const int vertex = 0) noexcept;
             Graph(const int numberVertex);
             // ~Graph(); Substituido por smartpointer
     };
