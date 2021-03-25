@@ -8,7 +8,7 @@ void IncMatrix::Graph::insertEdge(const int vertexOrigin,const int vertexDestina
         throw "ERROR: Out of index";
     ++lastEdge;
     matrix[vertexOrigin][lastEdge] = 1;
-    matrix[vertexDestination][lastEdge] = 1;
+    matrix[vertexDestination][lastEdge] = -1;
 }
 
 
@@ -68,7 +68,7 @@ void IncMatrix::Graph::DFSVisit(const int vertex,enum Color *color,int *tDiscove
         {
             for (int j = 0; j < numberVertex; j++)
             {
-                if (matrix[j][i] == 1 && color[j] == WHITE)
+                if (matrix[j][i] == -1 && color[j] == WHITE)
                 {
                     DFSVisit(j,color,tDiscovery,tCompletion,time);
                 }
@@ -110,11 +110,11 @@ void IncMatrix::Graph::BFS(const int vertex) noexcept{
         queue.pop();
         for (int i = 0; i < numberEdges; i++)
         {
-            if (matrix[vertexHolder][i])
+            if (matrix[vertexHolder][i] == 1)
             {
                 for (int destV = 0; destV < numberVertex; destV++)
                 {
-                    if (matrix[destV][i] == 1 && color[destV] == WHITE)
+                    if (matrix[destV][i] == -1 && color[destV] == WHITE)
                     {
                         color[destV] = GREY;
                         tDiscovery[destV] = tDiscovery[vertexHolder] + 1;
