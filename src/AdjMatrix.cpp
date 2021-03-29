@@ -147,7 +147,6 @@ Graph::Graph(const char* fileName){
     while (!feof(pf))
     {   
         fscanf(pf,"%d,%d\n",&v1,&v2);
-        printf("%d %d\n",v1,v2);
         this->insertEdge(v1,v2);
     }
 }
