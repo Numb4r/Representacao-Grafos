@@ -21,7 +21,7 @@ namespace AdjMatrix
             void DFS() noexcept;
             void BFS(const int vertex = 0) noexcept;
             Graph(const int numberVertex);
-            // ~Graph(); Substituido por smartpointer
+            Graph(const char* fileName);
     };
     
 } // namespace AdjMatrix

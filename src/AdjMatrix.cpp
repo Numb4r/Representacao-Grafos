@@ -1,17 +1,17 @@
 #include "AdjMatrix.hpp"
 #include <cstdio>
 #include <queue>
+using namespace AdjMatrix;
 
 
-
-void AdjMatrix::Graph::insertEdge(const int vertexOrigin, const int vertexDestination){
+void Graph::insertEdge(const int vertexOrigin, const int vertexDestination){
     if(vertexOrigin >= this->numberVertex || vertexDestination >= this->numberVertex )
         throw "ERROR: Out of index";
     matrix[vertexOrigin][vertexDestination] = (vertexOrigin == vertexDestination ? 2 : 1 );
     
     this->numberEdges+=1;
 }
-void AdjMatrix::Graph::foo()const noexcept{
+void Graph::foo()const noexcept{
     for (int i = 0; i < this->numberVertex; i++)
     {
         printf("[%d] -> ",i);
@@ -24,7 +24,7 @@ void AdjMatrix::Graph::foo()const noexcept{
     }
     
 }
-void AdjMatrix::Graph::bar()const noexcept{
+void Graph::bar()const noexcept{
     printf("/ ");
     for (int i = 0; i < this->numberVertex; i++)
         printf("%d ",i);
@@ -45,8 +45,8 @@ void AdjMatrix::Graph::bar()const noexcept{
 /*=================================================================================*/
 /*                              DFS                                                */
 /*=================================================================================*/
-void AdjMatrix::Graph::DFS()noexcept{
-    AdjMatrix::Graph::Color color[this->numberVertex];
+void Graph::DFS()noexcept{
+    Graph::Color color[this->numberVertex];
     int tDiscovery[this->numberVertex];
     int tCompletion[this->numberVertex];
     int time{};
@@ -56,7 +56,7 @@ void AdjMatrix::Graph::DFS()noexcept{
         if(color[i] == WHITE)
             DFSVisit(i,color,tDiscovery,tCompletion,&time);
 }
-void AdjMatrix::Graph::DFSVisit(int vertex,enum Color *color,int *tDiscovery,int *tCompletion,int *time) noexcept{
+void Graph::DFSVisit(int vertex,enum Color *color,int *tDiscovery,int *tCompletion,int *time) noexcept{
     color[vertex]       = GREY;
     *time              += 1;
     tDiscovery[vertex]  = *time;
@@ -81,8 +81,8 @@ void AdjMatrix::Graph::DFSVisit(int vertex,enum Color *color,int *tDiscovery,int
 /*=================================================================================*/
 
 
-void AdjMatrix::Graph::BFS(const int vertex) noexcept{
-    AdjMatrix::Graph::Color color[this->numberVertex];
+void Graph::BFS(const int vertex) noexcept{
+    Graph::Color color[this->numberVertex];
     int tDiscovery[this->numberVertex];
     int pi[this->numberVertex];
     std::queue<int> queue; 
@@ -130,10 +130,29 @@ void AdjMatrix::Graph::BFS(const int vertex) noexcept{
 
 
 
-//Using smart pointer
-//https://stackoverflow.com/questions/41378590/declare-bi-directional-matrix-using-smart-pointers-in-c
+Graph::Graph(const char* fileName){
+    FILE *pf = fopen(fileName,"r");
+    if(!pf) return ;
+    int aux;
+    fscanf(pf,"%d,%d \n",&numberVertex,&aux);
+    
+    matrix = std::make_unique< std::unique_ptr<int[]>[] >(numberVertex);
+    for (int i = 0; i < numberVertex; i++)
+    {
+        matrix[i] = std::make_unique<int[]>(numberVertex);
+        for (int j = 0; j < numberVertex; j++)
+            matrix[i][j] = 0;
+    }
+    int v1,v2;
+    while (!feof(pf))
+    {   
+        fscanf(pf,"%d,%d\n",&v1,&v2);
+        printf("%d %d\n",v1,v2);
+        this->insertEdge(v1,v2);
+    }
+}
 
-AdjMatrix::Graph::Graph(const int numberVertex):
+Graph::Graph(const int numberVertex):
     numberVertex{numberVertex},numberEdges{0},
     matrix{std::make_unique< std::unique_ptr<int[]>[] >(numberVertex)}{
     for ( int i = 0; i < numberVertex; ++i)
