@@ -1,18 +1,18 @@
 #include "IncMatrix.hpp"
 #include <cstdio>
 #include <queue>
+using namespace IncMatrix;
 
-
-void IncMatrix::Graph::insertEdge(const int vertexOrigin,const int vertexDestination){
-    if ((lastEdge+1) == numberEdges || vertexDestination >= numberVertex || vertexOrigin >= numberVertex )
+void Graph::insertEdge(const int vertexOrigin,const int vertexDestination){
+    if (lastEdge == numberEdges || vertexDestination >= numberVertex || vertexOrigin >= numberVertex )
         throw "ERROR: Out of index";
-    ++lastEdge;
     matrix[vertexOrigin][lastEdge] = 1;
     matrix[vertexDestination][lastEdge] = -1;
+    lastEdge++;
 }
 
 
-void IncMatrix::Graph::foo()const noexcept{
+void Graph::foo()const noexcept{
     for (int i = 0; i < this->numberVertex; i++)
     {
         printf("[%d] -> ",i);    
@@ -30,7 +30,7 @@ void IncMatrix::Graph::foo()const noexcept{
     }
     
 }
-void IncMatrix::Graph::bar()const noexcept{
+void Graph::bar()const noexcept{
     printf("/  ");
     for (int i = 0; i < this->numberEdges; i++)
         printf("e%d ",i);
@@ -45,8 +45,8 @@ void IncMatrix::Graph::bar()const noexcept{
         printf("\n");
     }
 }
-void IncMatrix::Graph::DFS() noexcept{
-    IncMatrix::Graph::Color color[this->numberVertex];
+void Graph::DFS() noexcept{
+    Graph::Color color[this->numberVertex];
     int tDiscovery[this->numberVertex];
     int tCompletion[this->numberVertex];
     int time{};
@@ -58,7 +58,7 @@ void IncMatrix::Graph::DFS() noexcept{
 }
 
 
-void IncMatrix::Graph::DFSVisit(const int vertex,enum Color *color,int *tDiscovery,int *tCompletion,int *time){
+void Graph::DFSVisit(const int vertex,enum Color *color,int *tDiscovery,int *tCompletion,int *time){
     color[vertex]       =   GREY;
     *time              +=   1;
     tDiscovery[vertex]  =   *time;
@@ -87,8 +87,8 @@ void IncMatrix::Graph::DFSVisit(const int vertex,enum Color *color,int *tDiscove
 
 
 
-void IncMatrix::Graph::BFS(const int vertex) noexcept{
-    IncMatrix::Graph::Color color[this->numberVertex];
+void Graph::BFS(const int vertex) noexcept{
+    Graph::Color color[this->numberVertex];
     int tDiscovery[this->numberVertex];
     int pi[this->numberVertex];
     std::queue<int> queue;
@@ -134,7 +134,26 @@ void IncMatrix::Graph::BFS(const int vertex) noexcept{
 
 }
 
-IncMatrix::Graph::Graph(const int nVertex,const int nEdges):
+Graph::Graph(const char* fileName){
+    FILE *pf = fopen(fileName,"r");
+    if(!pf) return ;
+    fscanf(pf,"%d,%d",&numberVertex,&numberEdges);
+    
+    matrix = std::make_unique< std::unique_ptr<int[]>[] >(numberVertex);
+    for (int i = 0; i < numberVertex; i++)
+    {
+        matrix[i] = std::make_unique<int[]>(numberEdges);
+        for (int j = 0; j < numberEdges; j++)
+            matrix[i][j] = 0;
+    }
+    int v1,v2;
+    while (!feof(pf))
+    {   
+        fscanf(pf,"%d,%d\n",&v1,&v2);
+        this->insertEdge(v1,v2);
+    }
+}
+Graph::Graph(const int nVertex,const int nEdges):
     numberVertex{nVertex},numberEdges{nEdges},
     matrix{std::make_unique< std::unique_ptr<int[]>[] >(nVertex)}{
     for (int i = 0; i < nVertex; i++)

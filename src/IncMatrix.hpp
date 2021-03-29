@@ -12,7 +12,7 @@ namespace IncMatrix
         };
         int numberVertex;
         int numberEdges;
-        int lastEdge{-1};
+        int lastEdge{};
         std::unique_ptr<std::unique_ptr<int[]>[]> matrix;
         void DFSVisit(const int vertex,enum Color *color,int *tDiscovery,int *tCompletion,int *time);
     public:
@@ -22,6 +22,7 @@ namespace IncMatrix
         void DFS() noexcept;
         void BFS(const int vertex = 0) noexcept;
         Graph(const int nVertex,const int nEdges);
+        Graph(const char* fileName);
         
     };
     
