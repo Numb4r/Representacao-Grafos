@@ -1,4 +1,4 @@
-CXX	     := -clang++
+CXX	     := -gcc++
 CXXFLAGS := -std=c++20
 LDFLAGS	 := -lstdc++ -lm
 BUILD 	 := ./build
