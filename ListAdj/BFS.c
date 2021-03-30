@@ -36,6 +36,7 @@ Fila* FFVazia(){
 	Fila *f = (Fila*) malloc(sizeof(Fila));
 	f->head = NULL;
 	f->tail = NULL;
+	f->size=0;
 	return f;
 }
 
@@ -51,20 +52,17 @@ void Queue(Fila *f, int vertex){
 		f->tail->prox = d;
 		f->tail = d;
 	}
-
-	f->size ++;
+	f->size++;
 }
 
 Item* Dequeue(Fila *f){
 	Item *aux;
-
 	if(f->head == NULL)
 		return NULL;
 
 	aux = f->head;
 	f->head = f->head->prox;
 	f->size --;
-
 	return aux;
 }
 
@@ -117,15 +115,6 @@ void ImprimeGraph(Graph G){
 }
 
 
-
-
-
-
-
-
-
-
-
 void BFS(Graph G, Vertex s){
 	int cor[G->V]; //0 Branco, 1 Cinza, 2 Preto
 	int d[G->V];
@@ -147,69 +136,34 @@ void BFS(Graph G, Vertex s){
 
 	while (f->size > 0){
 		Item *u = Dequeue(f);
-		// printf("[%d] -> ",u->data);
 		for(Vertex v = G->adj[u->data]; v != NULL; v=v->prox){
 			if(cor[v->value] == 0){
-				// printf("vh: %d v: %d \n",u->data,v->value);
-				// printf("%d\n",v->value);
 				cor[v->value] = 1;
 				d[v->value]   = d[u->data] + 1;
 				pi[v->value]  = u->data;
 				Queue(f, v->value);
 			}
 		}
-
 		cor[u->data] = 2;
 		printf("Vertex:%d\n", u->data);
 	}
 }
 
-
-
 int main(int argc, char const *argv[])
 {
 	int numberVertex,numberEdges;
 	FILE *pf = fopen("../graph.txt","r");
-    if(!pf) exit(-1) ;
+    if(!pf) exit(-1);
 	fscanf(pf,"%d,%d",&numberVertex,&numberEdges);
 	Graph G = GraphInitialize(numberVertex);
 	int v1,v2;
     while (!feof(pf))
     {   
         fscanf(pf,"%d,%d\n",&v1,&v2);
-			GraphInsertEdge(G,G->adj[v1],G->adj[v2]);
+		GraphInsertEdge(G,G->adj[v1],G->adj[v2]);
         
     }
 	fclose(pf);
-	// for (int i = 0; i < NUMBEREDGES; i++)
-	// {
-	// 	GraphInsertEdge(G,G->adj[vertex[i][0]],G->adj[vertex[i][1]]);
-	// }
-	
-
-	//Modelo de Grafo do slide 13 / aula 10
-	//S=0, W=1, R=2, V=3, T=4, X=5, U=6, Y=7
-	// GraphInsertEdge(G, G->adj[0], G->adj[1]);
-	// GraphInsertEdge(G, G->adj[0], G->adj[2]);
-	// GraphInsertEdge(G, G->adj[1], G->adj[0]);
-	// GraphInsertEdge(G, G->adj[1], G->adj[4]);
-	// GraphInsertEdge(G, G->adj[1], G->adj[5]);
-	// GraphInsertEdge(G, G->adj[2], G->adj[0]);
-	// GraphInsertEdge(G, G->adj[2], G->adj[3]);
-	// GraphInsertEdge(G, G->adj[3], G->adj[2]);
-	// GraphInsertEdge(G, G->adj[4], G->adj[1]);
-	// GraphInsertEdge(G, G->adj[4], G->adj[5]);
-	// GraphInsertEdge(G, G->adj[4], G->adj[6]);
-	// GraphInsertEdge(G, G->adj[5], G->adj[1]);
-	// GraphInsertEdge(G, G->adj[5], G->adj[4]);
-	// GraphInsertEdge(G, G->adj[5], G->adj[6]);
-	// GraphInsertEdge(G, G->adj[5], G->adj[7]);
-	// GraphInsertEdge(G, G->adj[6], G->adj[4]);
-	// GraphInsertEdge(G, G->adj[6], G->adj[5]);
-	// GraphInsertEdge(G, G->adj[6], G->adj[7]);
-	// GraphInsertEdge(G, G->adj[7], G->adj[6]);
-	// GraphInsertEdge(G, G->adj[7], G->adj[5]);
-
 	ImprimeGraph(G);
 
 	BFS(G, G->adj[0]);
