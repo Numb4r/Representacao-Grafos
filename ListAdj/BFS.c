@@ -149,6 +149,24 @@ void BFS(Graph G, Vertex s){
 	}
 }
 
+void DestroyGraphHelper(Vertex item){
+	Vertex atual = item;
+	Vertex prox = item->prox;
+	while (prox != NULL)
+	{
+		free(atual);
+		atual->prox = NULL;
+		atual = prox;
+		prox = prox->prox;
+	}
+	free(atual);
+	atual = NULL;
+}
+
+void DestroyGraph(Graph G){
+	for (int i = 0; i < G->V; i++)
+		DestroyGraphHelper(G->adj[i]);
+}
 int main(int argc, char const *argv[])
 {
 	int numberVertex,numberEdges;
@@ -168,6 +186,10 @@ int main(int argc, char const *argv[])
 
 	BFS(G, G->adj[0]);
 
+
+	DestroyGraph(G);
+	free(G);
+	G = NULL;
 	return 0;
 }
 

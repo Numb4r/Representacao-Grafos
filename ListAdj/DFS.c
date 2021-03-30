@@ -92,7 +92,24 @@ void DFS(Graph G){
 
 
 
+void DestroyGraphHelper(Vertex item){
+	Vertex atual = item;
+	Vertex prox = item->prox;
+	while (prox != NULL)
+	{
+		free(atual);
+		atual->prox = NULL;
+		atual = prox;
+		prox = prox->prox;
+	}
+	free(atual);
+	atual = NULL;
+}
 
+void DestroyGraph(Graph G){
+	for (int i = 0; i < G->V; i++)
+		DestroyGraphHelper(G->adj[i]);
+}
 int main(int argc, char const *argv[])
 {
 
@@ -105,13 +122,17 @@ int main(int argc, char const *argv[])
     while (!feof(pf))
     {   
         fscanf(pf,"%d,%d\n",&v1,&v2);
-			GraphInsertEdge(G,G->adj[v1],G->adj[v2]);
+		GraphInsertEdge(G,G->adj[v1],G->adj[v2]);
         
     }
 	fclose(pf);
 	
 	ImprimeGraph(G);
 	DFS(G);
+
+	DestroyGraph(G);
+	free(G);
+	G = NULL;
 	return 0;
 }
 
