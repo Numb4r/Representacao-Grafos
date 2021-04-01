@@ -17,17 +17,17 @@ struct graph{
 };
 
 Vertex VertexInitialize(int value){
-	Vertex v = malloc (sizeof(Vertex));
+	Vertex v = (Vertex)malloc (sizeof(Vertex));
 	v->value = value;
 	v->prox  = NULL;
 	return v;
 }
 
 Graph GraphInitialize(int V){
-	Graph G = malloc (sizeof(Graph));
+	Graph G = (Graph)malloc (sizeof(Graph));
 	G->V = V;
 	G->E = 0;
-	G->adj = malloc(V * sizeof(Vertex));
+	G->adj = (Vertex*)malloc(V * sizeof(Vertex));
 	for(int v=0; v<V; v++)
 		G->adj[v] = VertexInitialize(v);
 	return G;
