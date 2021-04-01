@@ -60,12 +60,12 @@ Após gerar os arquivos, será possível executar o programa principal rodando u
 
 Foram feitas algumas pequenas mudanças nos métodos BFS e DFS para se utilizar matrizes de adjacência e incidência.
 
-Uma das principais mudanças dos métodos adaptados para matrizes, em relação ao código apresentado em (ListAdj)[https://github.com/Numb4r/Representacao-Grafos/tree/master/ListAdj], é o parâmetro da função ser do tipo ``int`` em vez de um tipo ``Vertex``. Isso porque, para matrizes, é necessário apenas o valor numérico para identificação do vértice.
+Uma das principais mudanças dos métodos adaptados para matrizes, em relação ao código apresentado em [ListAdj](https://github.com/Numb4r/Representacao-Grafos/tree/master/ListAdj), é o parâmetro da função ser do tipo ``int`` em vez de um tipo ``Vertex``. Isso porque, para matrizes, é necessário apenas o valor numérico para identificação do vértice.
 
 
 ### BFS
 
-As mudanças no método se concentra dentro do *loop* ``while``.
+As mudanças no método se concentra dentro do *loop*  ``while``.
 
 No caso de *lista de adjacência*, é necessário percorrer a lista do vértice retirado da fila para que ache todos os vértices que ele faz conexão.
 
