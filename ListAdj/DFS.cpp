@@ -17,17 +17,17 @@ struct graph{
 };
 
 Vertex VertexInitialize(int value){
-	Vertex v = (Vertex)malloc (sizeof(Vertex));
+	Vertex v = (Vertex)malloc (sizeof * v);
 	v->value = value;
 	v->prox  = NULL;
 	return v;
 }
 
 Graph GraphInitialize(int V){
-	Graph G = (Graph)malloc (sizeof(Graph));
+	Graph G = (Graph)malloc (sizeof * G);
 	G->V = V;
 	G->E = 0;
-	G->adj = (Vertex*)malloc(V * sizeof(Vertex));
+	G->adj = (Vertex*)malloc(V * sizeof * G->adj);
 	for(int v=0; v<V; v++)
 		G->adj[v] = VertexInitialize(v);
 	return G;
@@ -92,23 +92,25 @@ void DFS(Graph G){
 
 
 
-void DestroyGraphHelper(Vertex item){
-	Vertex atual = item;
-	Vertex prox = item->prox;
-	while (prox != NULL)
-	{
-		free(atual);
-		atual->prox = NULL;
-		atual = prox;
-		prox = prox->prox;
-	}
-	free(atual);
-	atual = NULL;
-}
-
 void DestroyGraph(Graph G){
-	for (int i = 0; i < G->V; i++)
-		DestroyGraphHelper(G->adj[i]);
+	for (int i = 0; i < G->V; i++){
+		Vertex atual = G->adj[i];
+		while (atual != NULL)
+		{
+			Vertex prox = atual->prox;
+			free(atual);
+			atual->prox = NULL;
+			atual = prox;
+			prox = (atual == NULL ? NULL : atual->prox);
+		}
+		G->adj[i] = NULL;
+	}
+	
+	free(G->adj);
+	G->adj = NULL;
+	free(G);
+	G = NULL;
+		
 }
 int main(int argc, char const *argv[])
 {
@@ -116,12 +118,12 @@ int main(int argc, char const *argv[])
 	int numberVertex,numberEdges;
 	FILE *pf = fopen("../graph.txt","r");
     if(!pf) exit(-1);
-	fscanf(pf,"%d,%d",&numberVertex,&numberEdges);
+	fscanf(pf,"%d %d\n",&numberVertex,&numberEdges);
 	Graph G = GraphInitialize(numberVertex);
 	int v1,v2;
     while (!feof(pf))
     {   
-        fscanf(pf,"%d,%d\n",&v1,&v2);
+          fscanf(pf,"%d %d\n",&v1,&v2);
 		GraphInsertEdge(G,G->adj[v1],G->adj[v2]);
         
     }
@@ -131,8 +133,6 @@ int main(int argc, char const *argv[])
 	DFS(G);
 
 	DestroyGraph(G);
-	free(G);
-	G = NULL;
 	return 0;
 }
 
