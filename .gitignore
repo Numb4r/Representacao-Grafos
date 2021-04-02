@@ -36,3 +36,7 @@ build/
 *.dot
 *.png
 *.txt
+vgcore*
+callgrind*
+DFS
+BFS
