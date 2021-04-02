@@ -137,7 +137,7 @@ void Graph::BFS(const int vertex) noexcept{
 Graph::Graph(const char* fileName){
     FILE *pf = fopen(fileName,"r");
     if(!pf) return ;
-    fscanf(pf,"%d,%d",&numberVertex,&numberEdges);
+    fscanf(pf,"%d %d\n",&numberVertex,&numberEdges);
     
     matrix = std::make_unique< std::unique_ptr<int[]>[] >(numberVertex);
     for (int i = 0; i < numberVertex; i++)
@@ -149,7 +149,7 @@ Graph::Graph(const char* fileName){
     int v1,v2;
     while (!feof(pf))
     {   
-        fscanf(pf,"%d,%d\n",&v1,&v2);
+          fscanf(pf,"%d %d\n",&v1,&v2);
         this->insertEdge(v1,v2);
     }
 }
