@@ -129,7 +129,7 @@ int main(int argc, char const *argv[])
     }
 	fclose(pf);
 	
-	ImprimeGraph(G);
+	// ImprimeGraph(G);
 	DFS(G);
 
 	DestroyGraph(G);
