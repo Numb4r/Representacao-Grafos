@@ -30,12 +30,12 @@ $ g++ DFS.cpp -o DFS
 Para poder executar o programa é necessário de um arquivo **.txt** com as informações para gerar o grafo. O formato do arquivo *txt* é o seguinte:
 
 ```
-NumerodeVertices,NumerodeArestas
-VerticeOrigem,VerticeDestino
-VerticeOrigem,VerticeDestino
-VerticeOrigem,VerticeDestino
-VerticeOrigem,VerticeDestino
-VerticeOrigem,VerticeDestino
+NumerodeVertices NumerodeArestas
+VerticeOrigem VerticeDestino
+VerticeOrigem VerticeDestino
+VerticeOrigem VerticeDestino
+VerticeOrigem VerticeDestino
+VerticeOrigem VerticeDestino
 ```
 Por exemplo, o arquivo:
 ```
@@ -89,11 +89,11 @@ A representação de uma conexão de um vértice origem *V* para um vértice des
 
 |/  | 1 | 2 | - | V | U |
 |---|---|---|---|---|---|
-| 1 | 0 | 0 | 0 | 0 | 0 |
-| 2 | 0 | 0 | 0 | 0 | 0 |
+| 1 | 0 | 0 | - | 0 | 0 |
+| 2 | 0 | 0 | - | 0 | 0 |
 | - | - | - | - | - | - |
-| V | 0 | 0 | 0 | 0 | 1 |
-| U | 0 | 0 | 0 | 0 | 0 |
+| V | 0 | 0 | - | 0 | 1 |
+| U | 0 | 0 | - | 0 | 0 |
 
 ```
 int VertexHolder = queue.front();
@@ -118,11 +118,11 @@ A representação de uma conexão de um vértice origem *V* para um vértice des
 
 | / | e1| e2| - | eK|
 |---|---|---|---|---|
-| 1 | 0 | 0 | 0 | 0 |
-| 2 | 0 | 0 | 0 | 0 |
+| 1 | 0 | 0 | - | 0 |
+| 2 | 0 | 0 | - | 0 |
 | - | - | - | - | - |
-| V | 0 | 0 | 0 | 1 |
-| U | 0 | 0 | 0 | -1|
+| V | 0 | 0 | - | 1 |
+| U | 0 | 0 | - | -1|
 
 ```
 int vertexHolder = queue.front();
@@ -225,7 +225,7 @@ Foi utilizado um grafo com 100 vértices e 3333 arestas, dada a fórmula E(V) = 
 |---                |---|---|
 |Lista Adjacencia   |0.0035|0.004|
 |Matriz Adjacencia  |0.004|0.0045|
-|Matriz incidência  |0.0039|0.038|
+|Matriz incidência  |0.0038|0.038|
 
 Como podemos notar, listas e matrizes de adjacência não divergem muito os seus resultados. Além disso, dado a quantidade expressiva de informações extras que o grafo possui (33.33 vezes o número de  arestas), não ocorreu um aumento significativo em tempo de execução. Mas podemos perceber que matrizes de adjacência começam a se mostrar vantajosas quando grafos se tornam mais densos, já que a diferença de tempo para grafos esparsos cresceu em uma taxa menor.
 
