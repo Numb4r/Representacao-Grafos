@@ -34,7 +34,6 @@ app
 build/ 
 
 *.dot
-*.png
 *.txt
 vgcore*
 callgrind*
